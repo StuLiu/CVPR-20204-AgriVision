@@ -1,0 +1,41 @@
+# path to dataset, need modification if necessary
+DATASET:
+#  PATH: ./supervised/Agriculture-Vision-2021/
+  PATH: /home/liuwang/liuwang_data/documents/datasets/seg/2024-CVPR-Agriculture-Vision/supervised/Agriculture-Vision-2021
+  #documents/projects/mmseg-agri/data/2024-CVPR-Agriculture-Vision/supervised/Agriculture-Vision-2021
+
+TRANSFORM:
+  VERSION: TransformV4
+
+# path to save the model, need modification if necessary
+EXPERIMENT:
+  SAVER:
+    DIRPATH: ./models/
+  LOGGER:
+    TRACKING_URI: "file:./mlruns/0527-DeepLabV3Plus-efficientnet-b3-Hybirdv4"
+  NAME: "results/DeepLabV3Plus-efficientnet-b3-Hybirdv4"
+
+# The trainer setting, each node in our cluster has 4 2080Ti GPU.
+# This model requires 4 GPUs in total, so set GPUS=4
+TRAINER:
+  MAX_STEPS: 160000
+  GPUS: 2
+  ACCELERATOR: ddp
+  SYNC_BATCHNORM: true
+
+DATALOADER:
+  BATCH_SIZE:
+    TRAIN: 8
+    TEST: 4
+    VAL: 4
+  NUM_WORKERS: 4
+  INCLUDE_VALID: true
+
+MODEL:
+  ENCODER: efficientnet-b3
+  VERSION: DeepLabV3Plus
+
+LOSS:
+  VERSION: HybirdV4
+
+SEED: 3532
